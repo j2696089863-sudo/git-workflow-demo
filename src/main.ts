@@ -1,8 +1,14 @@
 const app = document.querySelector<HTMLDivElement>("#app");
 
 let frame = 0;
+let lastTime = performance.now();
+let elapsedSeconds = 0;
 
-function update() {
+function update(currentTime: number) {
+  const deltaSeconds = (currentTime - lastTime) / 1000;
+
+  lastTime = currentTime;
+  elapsedSeconds += deltaSeconds;
   frame += 1;
 }
 
@@ -15,14 +21,15 @@ function render() {
     <main>
       <h1>Baokemeng Demo</h1>
       <p>Game loop frame: ${frame}</p>
+      <p>Elapsed time: ${elapsedSeconds.toFixed(2)}s</p>
     </main>
   `;
 }
 
-function gameLoop() {
-  update();
+function gameLoop(currentTime: number) {
+  update(currentTime);
   render();
   requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop);
