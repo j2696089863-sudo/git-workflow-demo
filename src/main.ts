@@ -1,10 +1,28 @@
 const app = document.querySelector<HTMLDivElement>("#app");
 
-if (app) {
+let frame = 0;
+
+function update() {
+  frame += 1;
+}
+
+function render() {
+  if (!app) {
+    return;
+  }
+
   app.innerHTML = `
     <main>
       <h1>Baokemeng Demo</h1>
-      <p>TypeScript project scaffold is ready.</p>
+      <p>Game loop frame: ${frame}</p>
     </main>
   `;
 }
+
+function gameLoop() {
+  update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
